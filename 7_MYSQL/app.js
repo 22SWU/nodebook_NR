@@ -4,10 +4,15 @@ const margan = require("morgan");
 const nunjunks = require("nunjucks");
 
 const { sequelize } = require("./models");
+const indexRouter = require("./routes");
+const usersRouter = require("./routes/users");
+const commentsRouter = require("./routes/comments");
+
 const morgan = require("morgan");
 const res = require("express/lib/response");
 
 const app = express();
+
 app.set("port", process.env.PORT || 3001);
 app.set("view engine", "html");
 nunjunks.configure("views", {
@@ -27,6 +32,10 @@ app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
+app.use("/comments", commentsRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.mothod} ${req.url} 라우터가 없습니다.`);
