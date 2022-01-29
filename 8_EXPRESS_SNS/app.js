@@ -1,6 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const margan = require("morgan");
+const morgan = require("morgan");
 const path = require("path");
 const session = require("express-session");
 const nunjucks = require("nunjucks");
@@ -8,17 +8,16 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 const pageRouter = require("./routes/page");
-const exp = require("constants");
 
 const app = express();
 app.set("port", process.env.PORT || 8001);
 app.set("view engine", "html");
-nunjucks.configure("view", {
+nunjucks.configure("views", {
   express: app,
   watch: true,
 });
 
-app.use(margan("dev"));
+app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
