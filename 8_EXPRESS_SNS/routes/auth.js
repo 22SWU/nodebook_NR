@@ -1,6 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
+// const axios = require("axios");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const User = require("../models/user");
 
@@ -62,5 +63,27 @@ router.get(
     res.redirect("/");
   }
 );
+
+// 카카오 로그아웃
+// router.get("/kakao/logout", async (req, res) => {
+//   try {
+//     const ACCESS_TOKEN = res.locals.user.accessToken;
+//     let logout = await axios({
+//       method: "post",
+//       url: "https://kapi.kakao.com/v1/user/unlink",
+//       headers: {
+//         Authorization: `Bearer ${ACCESS_TOKEN}`,
+//       },
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.json(error);
+//   }
+//   // 세션 정리
+//   req.logout();
+//   req.session.destroy();
+
+//   res.redirect("/");
+// });
 
 module.exports = router;
