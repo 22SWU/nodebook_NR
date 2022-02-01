@@ -6,7 +6,7 @@ const fs = require("fs");
 const { Post, Hashtag } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
-const router = Router();
+const router = express.Router();
 
 try {
   fs.readdirSync("uploads");
@@ -38,7 +38,7 @@ router.post("/", isLoggedIn, upload2.none(), async (req, res, next) => {
   try {
     const post = await Post.create({
       content: req.body.content,
-      img: req.body.img,
+      img: req.body.url,
       UserId: req.user.id,
     });
     const hashtags = req.body.content.match(/#[^\s#]+/g);
@@ -50,7 +50,7 @@ router.post("/", isLoggedIn, upload2.none(), async (req, res, next) => {
           });
         })
       );
-      await post.addHashTags(result.map((r) => r[0]));
+      await post.addHashtags(result.map((r) => r[0]));
     }
     res.redirect("/");
   } catch (error) {
